@@ -36,10 +36,15 @@
 
 /*CHECK if a bit is SET*/
 
-#define CHECK_IF_SET(REG,BIT) ( REG & (1 << BIT) )
+#define IS_SET(REG,BIT) ( REG & (1 << BIT) )
 
 /*CHECK if a bit is CLEAR*/
 
-#define CHECK_IF_CLEAR(REG,BIT) ( ! (REG & (1<<BIT)) )
+#define Is_CLEAR(REG,BIT) ( ! (REG & (1<<BIT)) )
+
+/*READ the value of certain bit */
+
+#define READ_BIT(REG,BIT) ( REG & (1 << BIT) )
+
 
 #endif /* COMMON_MACROS_H_ */

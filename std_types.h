@@ -34,6 +34,10 @@ typedef unsigned char bool;
 #define LOW			(0u)
 #endif
 
+#ifndef in
+#define in			(0u)
+#define out			(1u)
+#endif
 
 typedef unsigned char		uint8;		/*		      0..255				*/
 typedef signed char			sint8;		/*	 	   -128..127				*/
@@ -48,3 +52,4 @@ typedef double				double32;
 
 
 #endif /* STD_TYPES_H_ */
+
