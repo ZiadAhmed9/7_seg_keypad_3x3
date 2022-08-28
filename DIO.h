@@ -11,7 +11,9 @@
  *******************************************************************************/
 #ifndef DIO_H_
 #define DIO_H_
-
+#include "common_macros.h"
+#include "std_types.h"
+#include "Micro_Config.h"
 
 /*
 	Function Name        : DIO_setPINDir

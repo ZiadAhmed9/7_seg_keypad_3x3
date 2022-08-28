@@ -18,6 +18,7 @@ Linker script and memory map
 
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
 LOAD ./DIO.o
+LOAD ./sev_seg.o
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
@@ -112,7 +113,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x97e
+.text           0x00000000      0xb76
  *(.vectors)
  .vectors       0x00000000       0x54 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
                 0x00000000                __vectors
@@ -186,6 +187,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00000068                __vector_18
                 0x00000068                __vector_20
  .text          0x0000006c        0x0 ./DIO.o
+ .text          0x0000006c        0x0 ./sev_seg.o
  .text          0x0000006c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
                 0x0000006c                . = ALIGN (0x2)
  *(.text.*)
@@ -213,12 +215,21 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text.DIO_enablePullup_pin
                 0x000007b2      0x1c8 ./DIO.o
                 0x000007b2                DIO_enablePullup_pin
- .text.libgcc   0x0000097a        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x0000097a                . = ALIGN (0x2)
+ .text.write_low_nibble
+                0x0000097a       0xe2 ./DIO.o
+                0x0000097a                write_low_nibble
+ .text.write_high_nibble
+                0x00000a5c       0xe4 ./DIO.o
+                0x00000a5c                write_high_nibble
+ .text.SEV_SEG_init
+                0x00000b40       0x32 ./sev_seg.o
+                0x00000b40                SEV_SEG_init
+ .text.libgcc   0x00000b72        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00000b72                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000097a        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x0000097a                exit
-                0x0000097a                _exit
+ .fini9         0x00000b72        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00000b72                exit
+                0x00000b72                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -237,15 +248,16 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000097a        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000b72        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000097e                _etext = .
+                0x00000b76                _etext = .
 
-.data           0x00800060        0x0 load address 0x0000097e
+.data           0x00800060        0x0 load address 0x00000b76
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
  .data          0x00800060        0x0 ./DIO.o
+ .data          0x00800060        0x0 ./sev_seg.o
  .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.data*)
  *(.rodata)
@@ -260,12 +272,13 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.bss)
  .bss           0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm16.o
  .bss           0x00800060        0x0 ./DIO.o
+ .bss           0x00800060        0x0 ./sev_seg.o
  .bss           0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.bss*)
  *(COMMON)
                 0x00800060                PROVIDE (__bss_end, .)
-                0x0000097e                __data_load_start = LOADADDR (.data)
-                0x0000097e                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000b76                __data_load_start = LOADADDR (.data)
+                0x00000b76                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800060        0x0
                 0x00800060                PROVIDE (__noinit_start, .)
@@ -290,13 +303,15 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000      0x954
+.stab           0x00000000      0xc78
  *(.stab)
- .stab          0x00000000      0x954 ./DIO.o
+ .stab          0x00000000      0xad4 ./DIO.o
+ .stab          0x00000ad4      0x1a4 ./sev_seg.o
+                                0x408 (size before relaxing)
 
-.stabstr        0x00000000      0x8a2
+.stabstr        0x00000000      0x91a
  *(.stabstr)
- .stabstr       0x00000000      0x8a2 ./DIO.o
+ .stabstr       0x00000000      0x91a ./DIO.o
 
 .stab.excl
  *(.stab.excl)

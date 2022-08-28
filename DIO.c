@@ -9,9 +9,6 @@
  * Author: Ziad Ahmed
  *
  *******************************************************************************/
-#include "common_macros.h"
-#include "std_types.h"
-#include "Micro_Config.h"
 #include "DIO.h"
 
 
