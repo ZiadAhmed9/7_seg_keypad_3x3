@@ -1,0 +1,1 @@
+in this project I will be interfacing a BCD seven segment display with a simple 4x3 keypad to show numbers from 0 to 9 on it

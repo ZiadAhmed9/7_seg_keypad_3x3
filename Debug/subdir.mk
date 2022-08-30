@@ -5,14 +5,20 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../DIO.c \
+../KEYPAD.c \
+../app.c \
 ../sev_seg.c 
 
 OBJS += \
 ./DIO.o \
+./KEYPAD.o \
+./app.o \
 ./sev_seg.o 
 
 C_DEPS += \
 ./DIO.d \
+./KEYPAD.d \
+./app.d \
 ./sev_seg.d 
 
 

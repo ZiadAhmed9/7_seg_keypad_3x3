@@ -43,6 +43,9 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 LSS += \
 7_seg_keypad_3x3.lss \
 
+FLASH_IMAGE += \
+7_seg_keypad_3x3.hex \
+
 SIZEDUMMY += \
 sizedummy \
 
@@ -67,6 +70,12 @@ main-build: 7_seg_keypad_3x3.elf secondary-outputs
 	@echo 'Finished building: $@'
 	@echo ' '
 
+7_seg_keypad_3x3.hex: 7_seg_keypad_3x3.elf makefile objects.mk $(OPTIONAL_TOOL_DEPS)
+	@echo 'Create Flash image (ihex format)'
+	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex 7_seg_keypad_3x3.elf  "7_seg_keypad_3x3.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 sizedummy: 7_seg_keypad_3x3.elf makefile objects.mk $(OPTIONAL_TOOL_DEPS)
 	@echo 'Invoking: Print Size'
 	-avr-size --format=avr --mcu=atmega16 7_seg_keypad_3x3.elf
@@ -75,10 +84,10 @@ sizedummy: 7_seg_keypad_3x3.elf makefile objects.mk $(OPTIONAL_TOOL_DEPS)
 
 # Other Targets
 clean:
-	-$(RM) $(ELFS)$(OBJS)$(ASM_DEPS)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) 7_seg_keypad_3x3.elf
+	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) 7_seg_keypad_3x3.elf
 	-@echo ' '
 
-secondary-outputs: $(LSS) $(SIZEDUMMY)
+secondary-outputs: $(LSS) $(FLASH_IMAGE) $(SIZEDUMMY)
 
 .PHONY: all clean dependents main-build
 

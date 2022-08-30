@@ -1,10 +1,10 @@
  /******************************************************************************
  *
- * Module: keypad
+ * Module: KEYPAD
  *
- * File Name: keypad.h
+ * File Name: KEYPAD.h
  *
- * Description:
+ * Description: 
  *
  * Author: Ziad Ahmed
  *
@@ -12,19 +12,19 @@
 
 #ifndef KEYPAD_H_
 #define KEYPAD_H_
-#include "std_types.h"
-#include "common_macros.h"
-#include "micro_config.h"
+#include "DIO.h"
 
 
 /*******************************************************************************
  *                      Preprocessor Macros                                    *
  *******************************************************************************/
+//In this project I Will use port B as output from MCU and Port D as input to MCU
+
 #define N_col 3
 #define N_row 4
-#define KEYPAD_PORT_OUT PORTD
-#define KEYPAD_PORT_IN  PIND
-#define KEYPAD_PORT_DIR DDRD
+#define KEYPAD_PORT_OUT 'B'
+#define KEYPAD_PORT_IN 'D'
+#define KEYPAD_PORT_Dir 'B'
 
 
 
@@ -32,8 +32,15 @@
  *                      Functions Prototypes                                   *
  *******************************************************************************/
 
-/*function that returns the ASCII value of the pressed button on the keypad */
-
+/*
+	Function Name        : KeyPad_getPressedKey
+	Function Returns     : unsigned char of the value of the pressed key
+	Function Arguments   : void
+	Function Description : Checks the keypad for inputs and reads its values
+*/
 uint8 KeyPad_getPressedKey(void);
+
+void KeyPad_init(void);
+
 
 #endif /* KEYPAD_H_ */
